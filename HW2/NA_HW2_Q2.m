@@ -1,46 +1,61 @@
 % HW2 Q2
 clear
 close all
-
 % meticulousrun()
 load epsilon.mat
 figure
-plot(epsilon)
+plot(1000:1000:1e7,epsilon)
 ylabel('absolute error(%)');
 xlabel('N(x1000)');
 title('meticulous result in multiples of 1000');
 load epsilon1.mat
-% algorithm2()
+% varrun()
 load epsilon1.mat
 figure
-
-plot(epsilon1);
+plot(linspace(10,10000,1000),epsilon1);
 xlabel('N')
 ylabel('absolute error(%)')
 title('variant repeated time')
-
-N=linspace(1,10000,100);
-num=1000;
-epsilon2=zeros(1,length(N));
-for jj = 1:length(N)
-    n=N(jj);
-    pi_prob=zeros(1,num);
-    for ii=1:num
-        uniform_x=2*rand(1,n)-1;
-        uniform_y=2*rand(1,n)-1;
-        uniform_r=sqrt(uniform_x.^2+uniform_y.^2);
-        pi_prob(ii)=4*sum(uniform_r<=1)/n;
-    end
-    avg_pi=mean(pi_prob);
-    epsilon2(jj)=100*abs(avg_pi-pi)/pi;
-end
+% eachrun()
+load epsilon2.mat
+N=linspace(1,1000,1000);
 figure
-plot(N,epsilon2);
+plot(N,epsilon2,'o')
 xlabel('N')
-ylabel('absolute error(%)')
-title(['repeat ' num2str(num) ' times'])      
+ylabel('absolute error')
+title('repeat 1000 times for each sample point')
+hold on;
+plot(N,N.^(-1),'r');
+hold on;
+plot(N,1./log(N),'g');
+hold on;
+plot(N,1./factorial(N),'yellow');
+hold on;
+plot(N,2.^(-N),'black');
+legend('$\epsilon_{t} $','$\frac{1}{N} $','$\frac{1}{ln(N)} $','$\frac{1}{N!} $',...
+    '$2^{-N} $','Interpreter','latex','Fontsize',14)
 
-function algorithm2()
+
+function eachrun()
+    N=linspace(1,1000,1000);
+    num=1000;
+    figure
+    for jj=1:num 
+        pi_prob=zeros(1,length(N));
+        for ii = 1:length(N)
+            n=N(ii);
+            uniform_x=2*rand(1,n)-1;
+            uniform_y=2*rand(1,n)-1;
+            uniform_r=sqrt(uniform_x.^2+uniform_y.^2);
+            pi_prob(ii)=4*sum(uniform_r<=1)/n;
+        end
+        epsilon2=abs(pi_prob-pi)./pi;
+        plot(N,epsilon2,'o');
+        hold on;
+    end
+    %save('epsilon2.mat','epsilon2');
+end
+function varrun()
     N=linspace(10,10000,1000);
     proudctnum=10000000;
     epsilon1=zeros(1,length(N));
@@ -57,7 +72,7 @@ function algorithm2()
         avg_pi=mean(pi_prob);
         epsilon1(jj)=100*abs(avg_pi-pi)/pi;
     end
-    save('epsilon1.mat','epsilon1');
+    %save('epsilon1.mat','epsilon1');
 end
 
 function meticulousrun()
@@ -90,16 +105,5 @@ function meticulousrun()
         end
         epsilon(ii)=100*abs(pi_prob-pi)/pi;
     end
-    save('epsilon.mat','epsilon');
+    %save('epsilon.mat','epsilon');
 end
-
-
-
-
-    
-
-
-
-
-
-
