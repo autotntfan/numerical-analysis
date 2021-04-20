@@ -84,8 +84,10 @@ A=[ones(3,1) sigma_theta];
 X_hat=(A'*A)\A'*mag;
 hold on
 plot(sigma_theta,A*X_hat,'b')
-W=[0.8 0 0;0 0.9 0;0 0 1];
+W=[1 0 0;0 1 0;0 0 1];
 A_prime=W*A;
 X_hat=(A_prime'*A_prime)\A_prime'*(W*mag);
 hold on
-plot(sigma_theta,A_prime*X_hat,'g')
+plot(sigma_theta,A_prime*X_hat,'go')
+xlabel('\sigma_{theta}')
+ylabel('|S(t)|')
