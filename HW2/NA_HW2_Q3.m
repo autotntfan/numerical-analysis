@@ -8,8 +8,8 @@ u2=rand(1,N);
 r=sqrt(-2.*log(u1));
 noise1=r.*cos(2*pi*u2);
 noise2=r.*sin(2*pi*u2);
-% load noise1.mat
-% load noise2.mat
+load noise1.mat
+load noise2.mat
 histogram(noise1,'BinWidth',0.1,'Normalization','pdf')
 ylim([0 0.45])
 ylabel('probability')
