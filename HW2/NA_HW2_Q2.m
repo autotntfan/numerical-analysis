@@ -8,7 +8,6 @@ plot(1000:1000:1e7,epsilon)
 ylabel('absolute error(%)');
 xlabel('N(x1000)');
 title('meticulous result in multiples of 1000');
-load epsilon1.mat
 % varrun()
 load epsilon1.mat
 figure
@@ -57,11 +56,11 @@ function eachrun()
 end
 function varrun()
     N=linspace(10,10000,1000);
-    proudctnum=10000000;
+    proudctnum=10000000; % product=N*repeated time ,which is a constant
     epsilon1=zeros(1,length(N));
     for jj = 1:length(N)
         n=N(jj);
-        num=round(proudctnum/n);
+        num=round(proudctnum/n); % avoid decimal size
         pi_prob=zeros(1,num);
         for ii=1:num
             uniform_x=2*rand(1,n)-1;
@@ -88,10 +87,10 @@ function meticulousrun()
         n=n_space(ii);
         uniform_x=2*rand(1,n)-1;
         uniform_y=2*rand(1,n)-1;
-        [logic,loc]=ismember(n,N);
+        [logic,loc]=ismember(n,N); % plot a scatter  as N=1000,5000....
         uniform_r=sqrt(uniform_x.^2+uniform_y.^2);
         pi_prob=4*sum(uniform_r<=1)/n;
-        if logic==true
+        if logic==true % plot a scatter  as N=1000,5000....
             figure(loc)
             plot(uniform_x,uniform_y,'b.');
             hold on
@@ -101,7 +100,7 @@ function meticulousrun()
             title(['N = ' num2str(n) '       \pi \approx ' num2str(pi_prob,16)]);
             xlabel('x');
             ylabel('y');
-            saveas(gcf,['scatter' num2str(n) '.jpg']);
+            saveas(gcf,['scatter' num2str(n) '.jpg']); % save the scatter
         end
         epsilon(ii)=100*abs(pi_prob-pi)/pi;
     end
