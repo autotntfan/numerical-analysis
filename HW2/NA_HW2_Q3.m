@@ -99,6 +99,7 @@ legend('true \omega','our \omega')
 %%% figure
 %%% plot(t(1),S_theta(1,:),'o',t(2),S_theta(2,:),'o',t(3),S_theta(3,:),'o')
 %% (d)
+% reference:https://towardsdatascience.com/weighted-linear-regression-2ef23b12a6d7
 weight=std(E,0,2);
 W=[1/weight(1) 0 0;0 1/weight(2) 0;0 0 1/weight(3)];
 A_prime=W*A;
