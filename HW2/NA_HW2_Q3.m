@@ -82,6 +82,7 @@ H=histogram(w,'Binwidth',1e-4);
 set(gca,'YLim',[0 3.5*1e4]);
 % find the most probable omega to evaluate our model
 omega=findomega(H);
+E=S_theta-omega.*t.*ones(3,N);
 % find each mean of the N group
 u_omega=mean(w);
 sigma_omega=std(w);
@@ -98,10 +99,10 @@ legend('true \omega','our \omega')
 %%% figure
 %%% plot(t(1),S_theta(1,:),'o',t(2),S_theta(2,:),'o',t(3),S_theta(3,:),'o')
 %% (d)
-W=[0.6 0 0;0 0.3 0;0 0 0.1];
+weight=std(E,0,2);
+W=[1/weight(1) 0 0;0 1/weight(2) 0;0 0 1/weight(3)];
 A_prime=W*A;
 X_hat=(A_prime'*A_prime)\A_prime'*(W*S_theta);
-E1=W*S_theta-A_prime*X_hat;
 w=X_hat(2,:);
 figure
 H=histogram(w,'Binwidth',1e-4);
@@ -115,7 +116,7 @@ hold on
 plot(t,pi/4+omega*t,'b--')
 hold on
 omega=findomega(H);
-plot(t,pi/4+omega*t,'g--')
+plot(t,pi/4+omega*t,'black--')
 legend('true \omega','our \omega','wighted \omega')
 function omega=findomega(fig)
     [~,loc]=max(fig.Values);
